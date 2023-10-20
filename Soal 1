@@ -1,0 +1,47 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
+
+
+/*-------------------------Implementasi body-parser-------------------------*/
+// penggunaan body-parser untuk ekstrak data request berformat JSON
+app.use(bodyParser.json())
+
+// penggunaan body-parser untuk ekstrak data request dari body
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
+/*-------------------------Implementasi cors-------------------------*/
+// penggunaan cors agar end point dapat diakses oleh cross platform
+app.use(cors())
+
+app.get("/Jaraakkk/:kecepatan/:jarak/:waktu", (req, res) => {
+    let kecepatan = Number(req.params.kecepatan);
+    let jarak = Number(req.params.jarak);
+    let waktu = Number(req.params.waktu);
+    let dicari = req.query.dicari; 
+
+    if (dicari === "kecepatan") {
+        hasil1 = jarak / waktu;
+    } else if (dicari === "jarak") {
+        hasil2 = kecepatan * waktu;
+    } else if (dicari === "waktu") {
+        hasil3 = jarak / kecepatan;
+    }
+
+    let response = {
+        kecepatan: kecepatan,
+        jarak: jarak,
+        waktu: waktu,
+    };
+
+    res.json(response);
+});
+
+const portt = 8000
+app.listen(portt, () => 
+{
+    console.log("Server run on port \""+portt+'\"');
+}) 
