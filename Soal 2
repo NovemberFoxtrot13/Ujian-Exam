@@ -1,0 +1,44 @@
+
+app.post("/hitunggg/:satuan/:data", (req, res) => {
+    const satuan = req.params.satuan;
+    const data = Number(req.body.data); 
+
+    let result;
+    const results = {};
+    const berat = {
+        kg: 1,
+        hg: 10,
+        dag: 100,
+        g: 1000,
+        dg: 1000,
+        cg: 10000,
+        mg: 100000
+    };
+
+    if (satuan == "kg") {
+        result = data / 1000000;
+    } else if (satuan == "hg") {
+        result = data / 100000;
+    } else if (satuan == "dag") {
+        result = data / 10000;
+    } else if (satuan == "g") {
+        result = data / 1000;
+    } else if (satuan == "dg") {
+        result = data / 100;
+    } else if (satuan == "cg") {
+        result = data / 10;
+    } else {
+        result = data;
+  }
+
+    for (const p in berat) {
+        results[p] = result * berat[p];
+    }
+
+    let response = {
+        status: res.statusCode,
+        hasil: results
+    };
+
+    res.json(response);
+});
