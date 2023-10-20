@@ -1,0 +1,62 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
+
+
+/*-------------------------Implementasi body-parser-------------------------*/
+// penggunaan body-parser untuk ekstrak data request berformat JSON
+app.use(bodyParser.json())
+
+// penggunaan body-parser untuk ekstrak data request dari body
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
+/*-------------------------Implementasi cors-------------------------*/
+// penggunaan cors agar end point dapat diakses oleh cross platform
+app.use(cors())
+
+app.post("/vst", (req, res) => {
+    let soal = req.body.type;
+    let var1 = Number(req.body.diket1);
+    let var2 = Number(req.body.diket2);
+
+
+    if (soal === "v") {
+        hasil = var1 / var2;
+        response = {
+            Soal: "Mencari kecepatan (Velocity) per detik",
+            Jarak: var1 + ' meter',
+            Waktu: var2 + ' detik',
+            Hasil: hasil + ' m/detik',
+        };
+    } else if (soal === "s") {
+        hasil = var1 * var2;
+        response = {
+            Soal: "Mencari Jarak (Space)",
+            Kecepatan: var1 + ' m/detik',
+            Waktu: var2 + ' detik',
+            Hasil: hasil + ' meter',
+        };
+    } else if (soal === "t") {
+        hasil = var1 / var2;
+        response = {
+            Soal: "Mencari Waktu (Time)",
+            Jarak: var1 + ' meter',
+            Kecepatan: var2 + ' m/detik',
+            Hasil: hasil.toFixed(2) + ' detik',
+        };
+    } else {
+        response = "Tipe tidak ada!\nCoba salah satu dari berikut Tipe:[v, s, t]";
+    }
+
+    res.json(response);
+});
+
+
+const portt = 8000
+app.listen(portt, () => 
+{
+    console.log("Server run on port \""+portt+'\"');
+}) 
